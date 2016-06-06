@@ -12,7 +12,7 @@ namespace MoviesNetCore.Models
         public string ReleaseYear { get; set; }
         public Category Category { get; set; }
         public Classification Classification { get; set; }
-        public TimeSpan RunningTime { get; set; }
+        public string RunningTime { get; set; }
         public string Description { get; set; }
         public string CoverPhoto { get; set; }
         public Format Format { get; set; }

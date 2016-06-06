@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using MoviesNetCore.Data;
 
 namespace MoviesNetCore
 {
@@ -27,8 +29,12 @@ namespace MoviesNetCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = @"Data Source=C:\Dev\MoviesNetCore\src\MoviesNetCore\Data\movies.sqlite";
+            services.AddDbContext<MovieContext>(options => options.UseSqlite(connection));
+
             // Add framework services.
             services.AddMvc();
+            services.AddScoped<IMovieRepository, MovieRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,7 +30,8 @@ namespace MoviesNetCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = @"Data Source=C:\Dev\MoviesNetCore\src\MoviesNetCore\Data\movies.sqlite";
+            var baseDirectory = AppContext.BaseDirectory;
+            var connection = string.Format(@"Data Source={0}/Data/movies.sqlite", baseDirectory);
             services.AddDbContext<MovieContext>(options => options.UseSqlite(connection));
 
             // Add framework services.
@@ -44,6 +46,11 @@ namespace MoviesNetCore
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+            app.Run(context =>
+            {
+                return context.Response.WriteAsync(string.Format("Movies Net Core Started.  Running at {0}", System.AppContext.BaseDirectory));
+            });
         }
     }
 }

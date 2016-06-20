@@ -9,15 +9,15 @@ namespace MoviesNetCore.Data
 {
     public interface IMovieRepository
     {
-        IEnumerable<Movie> GetAll();
+        IEnumerable<MovieDB> GetAll();
 
-        IEnumerable<Movie> GetAll(string searchFilter, int take, int skip);
+        IEnumerable<MovieDB> GetAll(string searchFilter, int take, int skip);
 
-        Movie Get(int id);
+        MovieDB Get(int id);
 
-        int Create(Movie movie);
+        int Create(MovieDB movie);
 
-        void Update(Movie movie);
+        void Update(MovieDB movie);
 
         void Delete(int id);
     }
@@ -33,7 +33,7 @@ namespace MoviesNetCore.Data
             _logger = loggerFactory.CreateLogger("MovieRepository");
         }
 
-        public int Create(Movie movie)
+        public int Create(MovieDB movie)
         {
             _logger.LogDebug("Creating movie with title {0}", movie.Title);
             _context.Add(movie);
@@ -49,25 +49,25 @@ namespace MoviesNetCore.Data
             _context.SaveChanges();
         }
 
-        public Movie Get(int id)
+        public MovieDB Get(int id)
         {
             _logger.LogDebug("Getting Movie Record for ID {0}", id);
             return _context.Movies.Single(m => m.Id == id);
         }
 
-        public IEnumerable<Movie> GetAll()
+        public IEnumerable<MovieDB> GetAll()
         {
             _logger.LogDebug("Getting all Movie Records");
             return _context.Movies.ToList();
         }
 
-        public IEnumerable<Movie> GetAll(string searchFilter, int take, int skip)
+        public IEnumerable<MovieDB> GetAll(string searchFilter, int take, int skip)
         {
             _logger.LogDebug("Getting filtered Movie Records with filter: {0}", searchFilter);
             return _context.Movies.Where(m => m.Title.Contains(searchFilter)).Take(take).Skip(skip);
         }
 
-        public void Update(Movie movie)
+        public void Update(MovieDB movie)
         {
             _logger.LogDebug("Updating Movie Record for ID {0}", movie.Id);
             var existingMovie = Get(movie.Id); // todo: try catch as may not exist

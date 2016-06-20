@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using MoviesNetCore.Data;
+using MoviesNetCore.Services;
 
 namespace MoviesNetCore
 {
@@ -38,6 +39,8 @@ namespace MoviesNetCore
             services.AddCors();  
             services.AddMvc();
             services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IMovieConverter, MovieConverter>();
+            services.AddScoped<IMovieService, MovieService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

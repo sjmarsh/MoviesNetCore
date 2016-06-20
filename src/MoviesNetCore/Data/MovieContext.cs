@@ -13,13 +13,12 @@ namespace MoviesNetCore.Data
         {
         } 
 
-        public DbSet<Movie> Movies { get; set; }
+        public DbSet<MovieDB> Movies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Movie>().ForSqliteToTable("movie");
-            modelBuilder.Entity<Movie>().HasKey(m => m.Id);
-            //modelBuilder.Entity<Movie>().Property(p => p.RunningTime).ForSqliteHasColumnType("string"); // todo: how to cast string to timespan?
+            modelBuilder.Entity<MovieDB>().ForSqliteToTable("movie");
+            modelBuilder.Entity<MovieDB>().HasKey(m => m.Id);
             base.OnModelCreating(modelBuilder);
         }
     }

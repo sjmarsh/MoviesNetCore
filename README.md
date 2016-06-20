@@ -34,3 +34,7 @@ Sqlite needs to be added into the docker image.  More info here: </br>
 [https://medium.com/trafi-tech-beat/running-net-core-on-docker-c438889eb5a#.hr092welt](https://medium.com/trafi-tech-beat/running-net-core-on-docker-c438889eb5a#.hr092welt)
 </br>
 [http://blog.pavelsklenar.com/5-useful-docker-tip-and-tricks-on-windows/](http://blog.pavelsklenar.com/5-useful-docker-tip-and-tricks-on-windows/)
+</br>
+[https://xunit.github.io/docs/getting-started-dotnet-core.html](https://xunit.github.io/docs/getting-started-dotnet-core.html)
+</br>
+[https://docs.asp.net/en/latest/testing/unit-testing.html](https://docs.asp.net/en/latest/testing/unit-testing.html)

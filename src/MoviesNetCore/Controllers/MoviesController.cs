@@ -20,14 +20,14 @@ namespace MoviesNetCore.Controllers
 
         // GET: api/movies
         [HttpGet]
-        public IEnumerable<Movie> Get()
+        public IEnumerable<Movie> Get(string searchFilter = "", int take = 10, int skip = 0)
         {
             // return test data
             //return GetTestData();
 
             try
             {
-                return _movieRepository.GetAll();
+                return _movieRepository.GetAll(searchFilter, take, skip);
             }
             catch(Exception ex)
             {
@@ -37,7 +37,7 @@ namespace MoviesNetCore.Controllers
             }
             
         }
-
+                
         // GET api/movies/5
         [HttpGet("{id}")]
         public Movie Get(int id)
@@ -48,7 +48,7 @@ namespace MoviesNetCore.Controllers
             return _movieRepository.Get(id);
 
         }
-
+        
         // POST api/movies
         [HttpPost]
         public void Post([FromBody]Movie movie)

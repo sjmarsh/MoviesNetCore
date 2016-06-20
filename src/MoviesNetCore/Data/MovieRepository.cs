@@ -9,7 +9,10 @@ namespace MoviesNetCore.Data
 {
     public interface IMovieRepository
     {
-        List<Movie> GetAll();
+        IEnumerable<Movie> GetAll();
+
+        IEnumerable<Movie> GetAll(string searchFilter, int take, int skip);
+
         Movie Get(int id);
 
         int Create(Movie movie);
@@ -52,11 +55,16 @@ namespace MoviesNetCore.Data
             return _context.Movies.Single(m => m.Id == id);
         }
 
-        public List<Movie> GetAll()
+        public IEnumerable<Movie> GetAll()
         {
-            // todo: limit results with take, skip, etc.
             _logger.LogDebug("Getting all Movie Records");
             return _context.Movies.ToList();
+        }
+
+        public IEnumerable<Movie> GetAll(string searchFilter, int take, int skip)
+        {
+            _logger.LogDebug("Getting filtered Movie Records with filter: {0}", searchFilter);
+            return _context.Movies.Where(m => m.Title.Contains(searchFilter)).Take(take).Skip(skip);
         }
 
         public void Update(Movie movie)

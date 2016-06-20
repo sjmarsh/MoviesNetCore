@@ -16,7 +16,8 @@
     "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-rc2-final",
     "Microsoft.EntityFrameworkCore.Tools.Core": "1.0.0-rc2-final",
     "Microsoft.EntityFrameworkCore.Tools.Cli": "1.0.0-preview1-final",
-    "sqlite3": "3.8.8.3"
+    "sqlite3": "3.8.8.3",
+    "Microsoft.AspNetCore.Cors": "1.0.0-rc2-final"
   },
 
   "tools": {

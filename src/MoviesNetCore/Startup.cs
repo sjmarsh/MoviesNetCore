@@ -35,6 +35,7 @@ namespace MoviesNetCore
             services.AddDbContext<MovieContext>(options => options.UseSqlite(connection));
 
             // Add framework services.
+            services.AddCors();  
             services.AddMvc();
             services.AddScoped<IMovieRepository, MovieRepository>();
         }
@@ -44,6 +45,12 @@ namespace MoviesNetCore
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            // need this so local dev client can hit docker
+            app.UseCors(builder => builder
+                                    .WithOrigins("http://localhost:4070")  // todo configure
+                                    .WithMethods("GET", "POST", "PUT", "DELETE")
+                                    .AllowAnyHeader());
 
             app.UseMvc();
 

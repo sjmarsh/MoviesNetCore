@@ -21,7 +21,7 @@ docker-machine ssh default </br>
 cd /mnt/dev/
 
 **Build**</br>
-  docker build -t movies-net-core 
+  docker build -t movies-net-core .
 
 **Run**</br>
   docker run -it -p 5000:5000 movies-net-core

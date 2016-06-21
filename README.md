@@ -38,3 +38,5 @@ Sqlite needs to be added into the docker image.  More info here: </br>
 [https://xunit.github.io/docs/getting-started-dotnet-core.html](https://xunit.github.io/docs/getting-started-dotnet-core.html)
 </br>
 [https://docs.asp.net/en/latest/testing/unit-testing.html](https://docs.asp.net/en/latest/testing/unit-testing.html)
+</br>
+[http://dotnetliberty.com/index.php/2016/02/22/moq-on-net-core/](http://dotnetliberty.com/index.php/2016/02/22/moq-on-net-core/)

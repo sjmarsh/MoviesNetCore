@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using MoviesNetCore.Data;
 using MoviesNetCore.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MoviesNetCore
 {
@@ -34,14 +35,19 @@ namespace MoviesNetCore
             var baseDirectory = AppContext.BaseDirectory;
             var connection = string.Format(@"Data Source={0}/Data/movies.sqlite", baseDirectory);
             services.AddDbContext<MovieContext>(options => options.UseSqlite(connection));
-
+            
             // Add framework services.
-            services.AddCors();  
-            services.AddMvc();
+            services.AddCors();
+            services.AddMvc()
+                .AddJsonOptions(x => { x.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter()); });
+                        
+            // Dependency Injection
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieConverter, MovieConverter>();
             services.AddScoped<IMovieService, MovieService>();
+
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

@@ -5,6 +5,9 @@ This is a sample/spike application to explore using .Net Core and Docker with an
 
 *The sqlite datastore will be overwritten with every deployment so it is effectively read-only for now. Future iterations of this spike may use an external data source.
 
+NOTE: .Net Core 1.0 has been released since working on this spike.  
+TODO: Migrate to latest .Net Core version. 
+
 ##.Net Core
 In powershell navigate to the main folder of the solution. </br>
 Eg. Dev\MoviesNetCore\src\MoviesNetCore

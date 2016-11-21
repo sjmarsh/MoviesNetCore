@@ -305,3 +305,6 @@ $RECYCLE.BIN/
 
 #AWS File
 Dockerrun.aws.json
+
+#Data file
+src/MoviesNetCore/Data/movies.sqlite

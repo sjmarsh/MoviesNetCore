@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using MoviesNetCore.Data;
 using MoviesNetCore.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 namespace MoviesNetCore
 {
@@ -35,11 +36,24 @@ namespace MoviesNetCore
             var baseDirectory = AppContext.BaseDirectory;
             var connection = string.Format(@"Data Source={0}/Data/movies.sqlite", baseDirectory);
             services.AddDbContext<MovieContext>(options => options.UseSqlite(connection));
-            
+
             // Add framework services.
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddMvc()
                 .AddJsonOptions(x => { x.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter()); });
+
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("CorsPolicy"));
+            });
                         
             // Dependency Injection
             services.AddScoped<IMovieRepository, MovieRepository>();
@@ -56,10 +70,7 @@ namespace MoviesNetCore
             loggerFactory.AddDebug();
 
             // need this so local dev client can hit docker
-            app.UseCors(builder => builder
-                                    .WithOrigins("http://localhost:4070")  // todo configure
-                                    .WithMethods("GET", "POST", "PUT", "DELETE")
-                                    .AllowAnyHeader());
+            app.UseCors("CorsPolicy");
 
             app.UseMvc();
 

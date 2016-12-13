@@ -64,7 +64,7 @@ namespace MoviesNetCore.Data
         public IEnumerable<MovieDB> GetAll(string searchFilter, int take, int skip)
         {
             _logger.LogDebug("Getting filtered Movie Records with filter: {0}", searchFilter);
-            return _context.Movies.Where(m => m.Title.Contains(searchFilter)).Take(take).Skip(skip);
+            return _context.Movies.Where(m => m.Title.Contains(searchFilter)).OrderBy(m => m.Title).Take(take).Skip(skip);
         }
 
         public void Update(MovieDB movie)

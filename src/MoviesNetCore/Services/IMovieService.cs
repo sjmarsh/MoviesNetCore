@@ -42,7 +42,7 @@ namespace MoviesNetCore.Services
             var movies = _movieRepository.GetAll();
             if (movies != null && movies.Any())
             {
-                return movies.Select(m => _movieConverter.ConvertToMovie(m)).OrderBy(m => m.Title);
+                return movies.Select(m => _movieConverter.ConvertToMovie(m));
             }
             return new List<Movie>();
         }

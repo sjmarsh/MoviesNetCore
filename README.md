@@ -30,10 +30,17 @@ docker-machine ssh default </br>
 cd /mnt/dev/
 
 **Build**</br>
-  docker build -t movies-net-core .
+  docker build -t sjmarsh/movies-net-core .
 
 **Run**</br>
   docker run -it -p 5000:5000 movies-net-core
+
+**Publish (to Docker Hub)**</br>
+  [https://www.howtoforge.com/tutorial/building-and-publishing-custom-docker-images/](https://www.howtoforge.com/tutorial/building-and-publishing-custom-docker-images/ "https://www.howtoforge.com/tutorial/building-and-publishing-custom-docker-images/")
+</br>
+  docker login  (prompted for docker account details)
+</br>
+  docker push sjmarsh/movies-net-core
 
 ##Sqlite
 Sqlite needs to be added into the docker image.  More info here: </br>

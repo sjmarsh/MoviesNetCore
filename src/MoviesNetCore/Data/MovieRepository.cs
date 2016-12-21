@@ -11,7 +11,7 @@ namespace MoviesNetCore.Data
     {
         IEnumerable<MovieDB> GetAll();
 
-        IEnumerable<MovieDB> GetAll(string searchFilter, int take, int skip);
+        IEnumerable<MovieDB> GetAll(MovieQuery query);
 
         MovieDB Get(int id);
 
@@ -61,10 +61,24 @@ namespace MoviesNetCore.Data
             return _context.Movies.ToList();
         }
 
-        public IEnumerable<MovieDB> GetAll(string searchFilter, int take, int skip)
+        public IEnumerable<MovieDB> GetAll(MovieQuery query)
         {
-            _logger.LogDebug("Getting filtered Movie Records with filter: {0}", searchFilter);
-            return _context.Movies.Where(m => m.Title.Contains(searchFilter)).OrderBy(m => m.Title).Take(take).Skip(skip);
+            _logger.LogDebug("Getting filtered Movie Records with filter: {0} and category {1}", query.SearchFilter, query.Category);
+
+            var result = _context.Movies as IQueryable<MovieDB>;
+            
+            if(!string.IsNullOrEmpty(query.SearchFilter))
+            {
+                result = result.Where(m => m.Title.Contains(query.SearchFilter));
+            }
+            
+            if(!string.IsNullOrEmpty(query.Category))
+            {
+                result = result.Where(m => m.Category == query.Category);
+            }
+
+            return result.OrderBy(m => m.Title)
+                    .Take(query.Take).Skip(query.Skip);
         }
 
         public void Update(MovieDB movie)

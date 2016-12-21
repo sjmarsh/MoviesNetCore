@@ -12,6 +12,7 @@ namespace MoviesNetCore.Tests.Services
 {
     public class MovieServiceTest
     {
+        
         private Mock<IMovieConverter> _mockMovieConverter = new Mock<IMovieConverter>();
         private Mock<IMovieRepository> _mockMovieRepository = new Mock<IMovieRepository>();
 
@@ -39,14 +40,19 @@ namespace MoviesNetCore.Tests.Services
         [Fact]
         public void ShouldGetMoviesFromRepositoryWithFilterAndPaging()
         {
-            var searchFilter = "Search";
-            var take = 10;
-            var skip = 5;
+            var movieQuery = new MovieQuery
+            {
+                SearchFilter = "Search",
+                Category = "Action",
+                Take = 10,
+                Skip = 5
+            };
+            
             var movieService = new MovieService(_mockMovieRepository.Object, _mockMovieConverter.Object);
 
-            movieService.All(searchFilter, take, skip);
+            movieService.All(movieQuery);
 
-            _mockMovieRepository.Verify(m => m.GetAll(searchFilter, take, skip), Times.Once);
+            _mockMovieRepository.Verify(m => m.GetAll(movieQuery), Times.Once);
         }
 
         [Fact]
@@ -113,5 +119,6 @@ namespace MoviesNetCore.Tests.Services
             Assert.Equal(1, result.Count());
             Assert.Equal(movie, result.First());
         }
+        
     }
 }

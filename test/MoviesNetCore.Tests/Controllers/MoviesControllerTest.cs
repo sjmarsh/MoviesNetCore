@@ -13,7 +13,7 @@ namespace MoviesNetCore.Tests.Controllers
     public class MoviesControllerTest
     {
         private Mock<IMovieService> _mockMovieService;
-
+        
         public MoviesControllerTest()
         {
             _mockMovieService = new Mock<IMovieService>();
@@ -21,26 +21,29 @@ namespace MoviesNetCore.Tests.Controllers
 
         [Fact]
         public void ShouldGetMoviesFromService()
-        {            
+        {
+            var movieQuery = new MovieQuery();
             var controller = new MoviesController(_mockMovieService.Object);
 
-            controller.Get();
+            controller.Get(movieQuery);
 
-            _mockMovieService.Verify(m => m.All("", 10, 0), Times.Once);
+            _mockMovieService.Verify(m => m.All(movieQuery), Times.Once);
         }
 
         [Fact]
         public void ShouldGetMoviesFromServiceWithFilter()
         {
-            var filter = "My Movie";
-            var take = 10;
-            var skip = 1;
-
+            var query = new MovieQuery
+            {
+                SearchFilter = "My Movie",
+                Take = 10,
+                Skip = 1
+            };
             var controller = new MoviesController(_mockMovieService.Object);
 
-            controller.Get(filter, take, skip);
+            controller.Get(query);
 
-            _mockMovieService.Verify(m => m.All(filter, take, skip), Times.Once);
+            _mockMovieService.Verify(m => m.All(query), Times.Once);
         }
 
         [Fact]
@@ -58,11 +61,12 @@ namespace MoviesNetCore.Tests.Controllers
         [Fact]
         public void ShouldReturnMoviesFromController()
         {
+            var movieQuery = new MovieQuery();
             var movies = new List<Movie> { new Movie { Id = 1, Title = "The Movie" } };
-            _mockMovieService.Setup(m => m.All(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>())).Returns(movies);
+            _mockMovieService.Setup(m => m.All(movieQuery)).Returns(movies);
             var controller = new MoviesController(_mockMovieService.Object);
 
-            var result = controller.Get();
+            var result = controller.Get(movieQuery);
 
             Assert.Equal(movies, result);
         }
@@ -79,5 +83,6 @@ namespace MoviesNetCore.Tests.Controllers
 
             Assert.Equal(movie, result);
         }
+        
     }
 }

@@ -17,27 +17,26 @@ namespace MoviesNetCore.Controllers
         {
             _movieService = movieService;
         }
-
-        // GET: api/movies
-        [HttpGet]
-        public IEnumerable<Movie> Get(string searchFilter = "", int take = 10, int skip = 0)
+                
+        // GET api/movies
+        public IEnumerable<Movie> Get([FromQuery]MovieQuery query)
         {
-            // return test data
-            //return GetTestData();
+            // default these for now
+            query.Take = 10;
+            query.Skip = 0;
 
             try
             {
-                return _movieService.All(searchFilter, take, skip);
+                return _movieService.All(query);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // just for debugging
                 // TODO log exceptions
                 return new Movie[] { new Movie { Title = "Exception", Description = ex.Message } };
             }
-            
         }
-                
+ 
         // GET api/movies/5
         [HttpGet("{id}")]
         public Movie Get(int id)

@@ -11,7 +11,7 @@ namespace MoviesNetCore.Services
     {
         Movie Get(int id);
         IEnumerable<Movie> All();
-        IEnumerable<Movie> All(string searchFilter, int take, int skip);
+        IEnumerable<Movie> All(MovieQuery query);
         int Save(Movie movie);
         void Delete(int id);
     }
@@ -47,9 +47,9 @@ namespace MoviesNetCore.Services
             return new List<Movie>();
         }
 
-        public IEnumerable<Movie> All(string searchFilter, int take, int skip)
+        public IEnumerable<Movie> All(MovieQuery query)
         {
-            var movies = _movieRepository.GetAll(searchFilter, take, skip).ToList();
+            var movies = _movieRepository.GetAll(query).ToList();
             if (movies != null && movies.Any())
             {
                 return movies.Select(m => _movieConverter.ConvertToMovie(m)).OrderBy(m => m.Title);

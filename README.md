@@ -33,7 +33,7 @@ cd /mnt/dev/
   docker build -t sjmarsh/movies-net-core .
 
 **Run**</br>
-  docker run -it -p 5000:5000 movies-net-core
+  docker run -it -p 5000:5000 sjmarsh/movies-net-core
 
 **Publish (to Docker Hub)**</br>
   [https://www.howtoforge.com/tutorial/building-and-publishing-custom-docker-images/](https://www.howtoforge.com/tutorial/building-and-publishing-custom-docker-images/ "https://www.howtoforge.com/tutorial/building-and-publishing-custom-docker-images/")

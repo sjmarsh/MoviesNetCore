@@ -63,7 +63,7 @@ namespace MoviesNetCore.Data
 
         public IEnumerable<MovieDB> GetAll(MovieQuery query)
         {
-            _logger.LogDebug("Getting filtered Movie Records with filter: {0} and category {1}", query.SearchFilter, query.Category);
+            _logger.LogDebug("Getting filtered Movie Records with filter: {0} and category {1}", query.SearchFilter, query.Categories);
 
             var result = _context.Movies as IQueryable<MovieDB>;
             
@@ -72,9 +72,9 @@ namespace MoviesNetCore.Data
                 result = result.Where(m => m.Title.Contains(query.SearchFilter));
             }
             
-            if(!string.IsNullOrEmpty(query.Category))
+            if(query.Categories != null && query.Categories.Any())
             {
-                result = result.Where(m => m.Category == query.Category);
+                result = result.Where(m => query.Categories.Contains(m.Category));   
             }
 
             return result.OrderBy(m => m.Title)

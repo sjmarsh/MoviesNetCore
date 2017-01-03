@@ -43,7 +43,7 @@ namespace MoviesNetCore.Tests.Services
             var movieQuery = new MovieQuery
             {
                 SearchFilter = "Search",
-                Category = "Action",
+                Categories = new List<string> { "Action" },
                 Take = 10,
                 Skip = 5
             };
@@ -119,6 +119,5 @@ namespace MoviesNetCore.Tests.Services
             Assert.Equal(1, result.Count());
             Assert.Equal(movie, result.First());
         }
-        
     }
 }

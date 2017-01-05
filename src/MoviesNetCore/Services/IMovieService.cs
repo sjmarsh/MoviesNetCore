@@ -10,8 +10,8 @@ namespace MoviesNetCore.Services
     public interface IMovieService
     {
         Movie Get(int id);
-        IEnumerable<Movie> All();
-        IEnumerable<Movie> All(MovieQuery query);
+        MovieResponse All();
+        MovieResponse All(MovieQuery query);
         int Save(Movie movie);
         void Delete(int id);
     }
@@ -37,24 +37,28 @@ namespace MoviesNetCore.Services
             return null;
         }
 
-        public IEnumerable<Movie> All()
+        public MovieResponse All()
         {
-            var movies = _movieRepository.GetAll();
-            if (movies != null && movies.Any())
+            var movieResponse = new MovieResponse();
+            var movieDbResponse = _movieRepository.GetAll();
+            if (movieDbResponse != null && movieDbResponse.Count > 0)
             {
-                return movies.Select(m => _movieConverter.ConvertToMovie(m));
+                movieResponse.Count = movieDbResponse.Count;
+                movieResponse.Movies =  movieDbResponse.Movies.Select(m => _movieConverter.ConvertToMovie(m)).OrderBy(m => m.Title);
             }
-            return new List<Movie>();
+            return movieResponse;
         }
 
-        public IEnumerable<Movie> All(MovieQuery query)
+        public MovieResponse All(MovieQuery query)
         {
-            var movies = _movieRepository.GetAll(query).ToList();
-            if (movies != null && movies.Any())
+            var movieResponse = new MovieResponse();
+            var movieDbResponse = _movieRepository.GetAll(query);
+            if (movieDbResponse != null && movieDbResponse.Count > 0)
             {
-                return movies.Select(m => _movieConverter.ConvertToMovie(m)).OrderBy(m => m.Title);
+                movieResponse.Count = movieDbResponse.Count;
+                movieResponse.Movies =  movieDbResponse.Movies.Select(m => _movieConverter.ConvertToMovie(m)).OrderBy(m => m.Title);
             }
-            return new List<Movie>();
+            return movieResponse;
         }
 
         public int Save(Movie movie)

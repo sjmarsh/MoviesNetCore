@@ -9,9 +9,9 @@ namespace MoviesNetCore.Data
 {
     public interface IMovieRepository
     {
-        IEnumerable<MovieDB> GetAll();
+        MovieDBResponse GetAll();
 
-        IEnumerable<MovieDB> GetAll(MovieQuery query);
+        MovieDBResponse GetAll(MovieQuery query);
 
         MovieDB Get(int id);
 
@@ -55,15 +55,21 @@ namespace MoviesNetCore.Data
             return _context.Movies.Single(m => m.Id == id);
         }
 
-        public IEnumerable<MovieDB> GetAll()
+        public MovieDBResponse GetAll()
         {
             _logger.LogDebug("Getting all Movie Records");
-            return _context.Movies.ToList();
+            var response = new MovieDBResponse();
+
+            response.Count = _context.Movies.Count();
+            response.Movies = _context.Movies.ToList();
+
+            return response;
         }
 
-        public IEnumerable<MovieDB> GetAll(MovieQuery query)
+        public MovieDBResponse GetAll(MovieQuery query)
         {
             _logger.LogDebug("Getting filtered Movie Records with filter: {0} and category {1}", query.SearchFilter, query.Categories);
+            var response = new MovieDBResponse();
 
             var result = _context.Movies as IQueryable<MovieDB>;
             
@@ -77,8 +83,12 @@ namespace MoviesNetCore.Data
                 result = result.Where(m => query.Categories.Contains(m.Category));   
             }
 
-            return result.OrderBy(m => m.Title)
-                    .Take(query.Take).Skip(query.Skip);
+            response.Count = result.Count();
+
+            response.Movies = result.OrderBy(m => m.Title)
+                                .Take(query.Take.Value).Skip(query.Skip.Value);
+                        
+            return response;
         }
 
         public void Update(MovieDB movie)

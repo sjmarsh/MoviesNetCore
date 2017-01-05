@@ -19,11 +19,11 @@ namespace MoviesNetCore.Controllers
         }
                 
         // GET api/movies
-        public IEnumerable<Movie> Get([FromQuery]MovieQuery query)
+        public MovieResponse Get([FromQuery]MovieQuery query)
         {
-            // default these for now
-            query.Take = 10;
-            query.Skip = 0;
+            // set defaults if not set
+            query.Take = query.Take ?? 10;
+            query.Skip = query.Skip ?? 0;
 
             try
             {
@@ -33,7 +33,10 @@ namespace MoviesNetCore.Controllers
             {
                 // just for debugging
                 // TODO log exceptions
-                return new Movie[] { new Movie { Title = "Exception", Description = ex.Message } };
+                return new MovieResponse
+                {
+                    Movies = new Movie[] { new Movie { Title = "Exception", Description = ex.Message } }
+                };
             }
         }
  

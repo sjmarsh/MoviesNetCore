@@ -63,12 +63,14 @@ namespace MoviesNetCore.Tests.Controllers
         {
             var movieQuery = new MovieQuery();
             var movies = new List<Movie> { new Movie { Id = 1, Title = "The Movie" } };
-            _mockMovieService.Setup(m => m.All(movieQuery)).Returns(movies);
+            var movieReponse = new MovieResponse();
+            movieReponse.Movies = movies;
+            _mockMovieService.Setup(m => m.All(movieQuery)).Returns(movieReponse);
             var controller = new MoviesController(_mockMovieService.Object);
 
             var result = controller.Get(movieQuery);
 
-            Assert.Equal(movies, result);
+            Assert.Equal(movieReponse, result);
         }
 
         [Fact]

@@ -76,9 +76,11 @@ namespace MoviesNetCore.Tests.Services
             var movieId = 11;
             var movieDb = new MovieDB { Title = "Title" };
             var movieDbs = new List<MovieDB> { movieDb };
+            var movieDbResponse = new MovieDBResponse { Movies = movieDbs, Count = 1 };
             var movie = new Movie { Title = "Title" };
             var movies = new List<Movie> { movie };
-            _mockMovieRepository.Setup(r => r.GetAll()).Returns(movieDbs);
+            
+            _mockMovieRepository.Setup(r => r.GetAll()).Returns(movieDbResponse);
             _mockMovieConverter.Setup(c => c.ConvertToMovie(It.IsAny<MovieDB>())).Returns(movie);
             var movieService = new MovieService(_mockMovieRepository.Object, _mockMovieConverter.Object);
 
@@ -108,16 +110,17 @@ namespace MoviesNetCore.Tests.Services
             var movieId = 11;
             var movieDb = new MovieDB { Title = "Title" };
             var movieDbs = new List<MovieDB> { movieDb };
+            var movieDbResponse = new MovieDBResponse { Movies = movieDbs, Count = 1 };
             var movie = new Movie { Title = "Title" };
             var movies = new List<Movie> { movie };
-            _mockMovieRepository.Setup(r => r.GetAll()).Returns(movieDbs);
+            _mockMovieRepository.Setup(r => r.GetAll()).Returns(movieDbResponse);
             _mockMovieConverter.Setup(c => c.ConvertToMovie(It.IsAny<MovieDB>())).Returns(movie);
             var movieService = new MovieService(_mockMovieRepository.Object, _mockMovieConverter.Object);
 
             var result = movieService.All();
 
-            Assert.Equal(1, result.Count());
-            Assert.Equal(movie, result.First());
+            Assert.Equal(1, result.Count);
+            Assert.Equal(movie, result.Movies.First());
         }
     }
 }

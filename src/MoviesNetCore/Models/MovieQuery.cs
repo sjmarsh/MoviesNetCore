@@ -10,7 +10,7 @@ namespace MoviesNetCore.Models
         public string SearchFilter { get; set; }
         public List<string> Categories { get; set; }
 
-        public int Take { get; set; }
-        public int Skip { get; set; }
+        public int? Take { get; set; }
+        public int? Skip { get; set; }
     }
 }
